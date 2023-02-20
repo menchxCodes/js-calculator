@@ -17,3 +17,7 @@ function divide(a,b) {
         return "ERROR"
     }
 }
+
+function operate(a,b,operation){
+    return operation(a,b)
+}
