@@ -1,3 +1,44 @@
+
 body {
+
     background-color: #3a3a3a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 90vh;
+}
+.op-container {
+    display: flex;
+    flex-direction: column;
+    flex:0 0 auto;
+}
+.num-container {
+    display:grid;
+    grid-template-columns: auto auto auto;
+    flex:1 0 auto;
+}
+
+button {
+    font-size: 32px;
+    margin: 2px;
+}
+
+#display {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:aliceblue;
+    font-size:48px;
+    border: 1px solid whitesmoke;
+    text-align: right;
+    padding:5px;
+    flex: 1 0 auto;
+    margin:5px 5px;
+    min-width: 250px;
+}
+
+.calculator {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 380px;
 }
