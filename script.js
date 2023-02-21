@@ -15,19 +15,37 @@ initializeHTML()
 
 function initializeHTML() {
     // initiallize digits
-    let bttnOrder = [7,8,9,4,5,6,1,2,3,0]
+    let bttnOrder = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]
     let nums = document.querySelector(".num-container")
-    bttnOrder.forEach(digit =>{
+    bttnOrder.forEach(digit => {
         let bttn = document.createElement("button")
+        bttn.classList.add("digit")
         bttn.textContent = digit
-        bttn.addEventListener("click", function () {
-            setDisplayValue(digit)
-            displayChanged = false
-            operatorSelected = false
-        })
+        bttn.addEventListener("click", clickHandler)
         nums.appendChild(bttn)
     })
 
+    function clickHandler() {
+        setDisplayValue(this.textContent)
+        displayChanged = false
+        operatorSelected = false
+    }
+
+    window.addEventListener("keydown", function (e) {
+
+        for (let i = 0;i<10;i++){
+            if (e["key"]== i){
+                setDisplayValue(i)
+            displayChanged = false
+            operatorSelected = false
+            }
+        }
+    })
+
+    function onKeypress() {
+        console.log(this.textContent)
+
+    }
 
     document.querySelector("#clear").addEventListener("click", function () {
         display.textContent = "0"
