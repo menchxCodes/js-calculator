@@ -16,20 +16,22 @@ body {
 .num-container {
     display:grid;
     grid-template-columns: auto auto auto;
-    flex:1 0 auto;
+    flex:1 0 250px;
 }
 
 #display {
-    flex: 1 0 auto;
-    margin:5px 5px;
+    flex: 1 1 0;
+    /* flex: 1 0 365px; */
     min-width: 250px;
 }
 
 .calculator {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     max-width: 380px;
+    min-width: 365px;
 }
 /* style */
 body {
@@ -49,16 +51,17 @@ body {
     border: 1px solid whitesmoke;
     text-align: right;
     padding:5px;
+    margin-bottom:10px;
 }
 /* typography */
 
 button {
     font-size: 32px;
-    margin: 2px;
 }
 
 #display {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size:48px;
+    font-size: 48px;
+    overflow-wrap:break-word ;
 }
 
