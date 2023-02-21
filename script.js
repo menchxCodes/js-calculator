@@ -35,29 +35,34 @@ function initializeHTML() {
 
         for (let i = 0;i<10;i++){
             if (e["key"]== i){
-                setDisplayValue(i)
+            setDisplayValue(i)
             displayChanged = false
             operatorSelected = false
             }
         }
+
+        if(e["key"]=="+"){
+            evaluateKey("+")
+        }
+        if(e["key"]=="-"){
+            evaluateKey("-")
+        }
+        if(e["key"]=="*"){
+            evaluateKey("x")
+        }
+        if(e["key"]=="/"){
+            evaluateKey("/")
+        }
+        if(e["key"]=="Delete"){
+            clear()
+        }
+        if(e["key"]=="Enter"){
+            equalsbttn()
+        }
+
     })
 
-    function onKeypress() {
-        console.log(this.textContent)
-
-    }
-
-    document.querySelector("#clear").addEventListener("click", function () {
-        display.textContent = "0"
-        firstInput = 0
-        secondInput = 0
-        firstInputSet = false
-        secondInputSet = false
-        operator = ""
-        displayChanged = false
-        operatorSelected = false
-    })
-
+    document.querySelector("#clear").addEventListener("click", clear)
 
     document.querySelector("#equals").addEventListener("click", equalsbttn)
 
@@ -66,7 +71,17 @@ function initializeHTML() {
     document.querySelector("#multiply").addEventListener("click", evaluate)
     document.querySelector("#divide").addEventListener("click", evaluate)
 
+}
 
+function clear() {
+    display.textContent = "0"
+        firstInput = 0
+        secondInput = 0
+        firstInputSet = false
+        secondInputSet = false
+        operator = ""
+        displayChanged = false
+        operatorSelected = false
 }
 
 function getOperator(string) {
@@ -109,7 +124,6 @@ function equalsbttn() {
         secondInputSet = false
 
         operator = "equals"
-        // console.log(`firstInput=${firstInput} secondInput=${secondInput} operator=${operator}`)
         return result
     }
 }
@@ -118,17 +132,12 @@ function evaluate() {
 
     if (operatorSelected) {
         if (operator == getOperator(this.textContent)) {
-            // console.log(`same op, ${operator} ${this.textContent}`)
             return
         } else {
             operator = getOperator(this.textContent)
-            // console.log(`new op = ${this.textContent}`)
             return
         }
     }
-
-    // console.log(`button= ${this.textContent}`)
-    // console.log(`current operator = ${operator}`)
 
     storeValue()
 
@@ -144,19 +153,49 @@ function evaluate() {
         operator = getOperator(this.textContent)
         operatorSelected = true
         displayChanged = true
-        // console.log(`operator selected = ${operator} ${operatorSelected}`)
-        // console.log(`firstInput= ${firstInput} secondInput=${secondInput}`)
         return
     }
 
     operatorSelected = true
 
 }
+
+function evaluateKey(key) {
+
+    if (operatorSelected) {
+        if (operator == getOperator(key)) {
+            return
+        } else {
+            operator = getOperator(key)
+            return
+        }
+    }
+
+
+    storeValue()
+
+
+    if (firstInputSet == true && secondInputSet == true) {
+        if (operator == "equals") {
+            operator = getOperator(key)
+        }
+        equals(operator)
+    }
+
+    if (operatorSelected == false) {
+        operator = getOperator(key)
+        operatorSelected = true
+        displayChanged = true
+        return
+    }
+
+    operatorSelected = true
+}
+
 function equals(op) {
 
     let result = operate(Number(firstInput), Number(secondInput), operator)
     display.textContent = result
-    // console.log(`op result = ${result}`)
 
     firstInput = result
     firstInputSet = true
@@ -173,13 +212,11 @@ function storeValue() {
     if (firstInputSet == false) {
         firstInput = display.textContent
         firstInputSet = true
-        // console.log(`firstInput=${firstInput} secondInput=${secondInput} operator=${operator}`)
         return
 
     } else {
         secondInput = display.textContent
         secondInputSet = true
-        // console.log(`firstInput=${firstInput} secondInput=${secondInput} operator=${operator}`)
         return
     }
 }
