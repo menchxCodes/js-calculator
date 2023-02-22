@@ -1,6 +1,6 @@
 const operations = ["+", "-", "x", "/", "=", "Clear"]
 const display = document.querySelector("#display")
-
+const ghost = document.querySelector("#ghost")
 
 let firstInput = 0
 let firstInputSet = false
@@ -33,30 +33,30 @@ function initializeHTML() {
 
     window.addEventListener("keydown", function (e) {
 
-        for (let i = 0;i<10;i++){
-            if (e["key"]== i){
-            setDisplayValue(i)
-            displayChanged = false
-            operatorSelected = false
+        for (let i = 0; i < 10; i++) {
+            if (e["key"] == i) {
+                setDisplayValue(i)
+                displayChanged = false
+                operatorSelected = false
             }
         }
 
-        if(e["key"]=="+"){
+        if (e["key"] == "+") {
             evaluateKey("+")
         }
-        if(e["key"]=="-"){
+        if (e["key"] == "-") {
             evaluateKey("-")
         }
-        if(e["key"]=="*"){
+        if (e["key"] == "*") {
             evaluateKey("x")
         }
-        if(e["key"]=="/"){
+        if (e["key"] == "/") {
             evaluateKey("/")
         }
-        if(e["key"]=="Delete"){
+        if (e["key"] == "Delete") {
             clear()
         }
-        if(e["key"]=="Enter"){
+        if (e["key"] == "Enter") {
             equalsbttn()
         }
 
@@ -75,13 +75,14 @@ function initializeHTML() {
 
 function clear() {
     display.textContent = "0"
-        firstInput = 0
-        secondInput = 0
-        firstInputSet = false
-        secondInputSet = false
-        operator = ""
-        displayChanged = false
-        operatorSelected = false
+    firstInput = 0
+    secondInput = 0
+    firstInputSet = false
+    secondInputSet = false
+    operator = ""
+    displayChanged = false
+    operatorSelected = false
+    ghost.textContent = ""
 }
 
 function getOperator(string) {
@@ -107,13 +108,16 @@ function getOperator(string) {
 
 function equalsbttn() {
 
-    if (operator == "equals") {
+    if (operator == "equals" || operator == "") {
         return
     }
 
     storeValue()
     if (firstInputSet == true && secondInputSet == true) {
+
         let result = operate(Number(firstInput), Number(secondInput), operator)
+
+        ghost.textContent = `${firstInput} ${getString(operator)} ${secondInput} = ${result}`
         display.textContent = result
         displayChanged = true
 
@@ -126,20 +130,44 @@ function equalsbttn() {
         operator = "equals"
         return result
     }
+
+    if (firstInputSet == true && secondInputSet == false) {
+
+        storeValue()
+
+        let result = operate(Number(firstInput), Number(secondInput), operator)
+
+        ghost.textContent = `${firstInput} ${getString(operator)} ${secondInput} = ${result}`
+        display.textContent = result
+        displayChanged = true
+
+        firstInput = 0
+        firstInputSet = false
+
+        secondInput = 0
+        secondInputSet = false
+
+        operator = "equals"
+        return result
+    }
+
+
 }
 
 function evaluate() {
 
     if (operatorSelected) {
         if (operator == getOperator(this.textContent)) {
+            ghost.textContent = `${firstInput} ${getString(operator)}`
             return
         } else {
             operator = getOperator(this.textContent)
+            ghost.textContent = `${firstInput} ${getString(operator)}`
             return
         }
     }
 
-    storeValue()
+    storeValue(this.textContent)
 
 
     if (firstInputSet == true && secondInputSet == true) {
@@ -164,15 +192,17 @@ function evaluateKey(key) {
 
     if (operatorSelected) {
         if (operator == getOperator(key)) {
+            ghost.textContent = `${firstInput} ${getString(operator)}`
             return
         } else {
             operator = getOperator(key)
+            ghost.textContent = `${firstInput} ${getString(operator)}`
             return
         }
     }
 
 
-    storeValue()
+    storeValue(key)
 
 
     if (firstInputSet == true && secondInputSet == true) {
@@ -183,9 +213,11 @@ function evaluateKey(key) {
     }
 
     if (operatorSelected == false) {
+
         operator = getOperator(key)
         operatorSelected = true
         displayChanged = true
+
         return
     }
 
@@ -193,6 +225,7 @@ function evaluateKey(key) {
 }
 
 function equals(op) {
+
 
     let result = operate(Number(firstInput), Number(secondInput), operator)
     display.textContent = result
@@ -208,17 +241,41 @@ function equals(op) {
 
 }
 
-function storeValue() {
+function storeValue(key) {
     if (firstInputSet == false) {
         firstInput = display.textContent
         firstInputSet = true
+        ghost.textContent = `${firstInput} ${key}`
         return
 
     } else {
         secondInput = display.textContent
         secondInputSet = true
+        ghost.textContent = `${firstInput} ${getString(operator)} ${secondInput} =`
         return
     }
+}
+
+function getString(op) {
+    let string = ""
+    switch (op) {
+        case add:
+            string = "+"
+            break;
+        case subtract:
+            string = "-"
+            break;
+        case multiply:
+            string = "x"
+            break;
+        case divide:
+            string = "/"
+            break;
+        default:
+            string = ""
+            break;
+    }
+    return string
 }
 
 function setDisplayValue(num) {

@@ -19,7 +19,7 @@ body {
     flex:1 0 250px;
 }
 
-#display {
+#display-container {
     flex: 1 1 0;
     /* flex: 1 0 365px; */
     min-width: 250px;
@@ -46,7 +46,7 @@ body {
     user-select: none;
 }
 
-#display {
+#display-container {
     color:aliceblue;
     border: 1px solid whitesmoke;
     text-align: right;
@@ -57,11 +57,17 @@ body {
 
 button {
     font-size: 32px;
+    font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
 }
 
-#display {
+#display-container {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 48px;
     overflow-wrap:break-word ;
 }
 
+#ghost {
+    font-size: 14px;
+    font-style: italic;
+}
