@@ -137,7 +137,7 @@ function equalsbttn() {
 
         let result = operate(Number(firstInput), Number(secondInput), operator)
 
-        ghost.textContent = `${firstInput} ${getString(operator)} ${secondInput} = ${result}`
+        ghost.textContent = `${firstInput} ${getString(operator)} ${secondInput} =`
         display.textContent = result
         displayChanged = true
 
